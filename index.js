@@ -42,5 +42,5 @@ app.put('/todo/:index', (request, response) => {
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+  console.log(`Todo app started on ${port}`)
 })
