@@ -39,15 +39,27 @@ app.post('/todo', (request, response) => {
   const json = JSON.parse(file)
   json.push(request.body)
   fs.writeFileSync(path.join(__dirname, 'todos.json'), JSON.stringify(json))
-  return response.json(request.body)
+  return response.json({ message: "Created" })
 })
 
 app.delete('/todo/:index', (request, response) => {
   // Borra del fichero todos.json el objeto Todo en el index especificado por parámetros
+  const index = request.params.index
+  const file = fs.readFileSync(path.join(__dirname, 'todos.json'), 'utf8')
+  let json = JSON.parse(file)
+  json = json.slice(index, 1)
+  fs.writeFileSync(path.join(__dirname, 'todos.json'), JSON.stringify(json))
+  return response.json({ message: "Deleted" })
 })
 
 app.put('/todo/:index', (request, response) => {
   // Modifica del fichero todos.json el objeto Todo en el index especificado por parámetros
+  const index = request.params.index
+  const file = fs.readFileSync(path.join(__dirname, 'todos.json'), 'utf8')
+  const json = JSON.parse(file)
+  json[index] = request.body
+  fs.writeFileSync(path.join(__dirname, 'todos.json'), JSON.stringify(json))
+  return response.json({ message: "Updated" })
 })
 
 app.listen(port, () => {
